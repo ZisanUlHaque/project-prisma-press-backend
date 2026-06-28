@@ -4,19 +4,32 @@ import { authService } from "./auth.service";
 import { sendResponse } from "../../utils/sendResponse";
 import httpStatus from "http-status";
 
-
 const loginUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const payload = req.body;
 
-    const loginResult = await authService.loginUser(payload);
+    const { refreshToken, accessToken } = await authService.loginUser(payload);
 
-    sendResponse(res,{
-        success : true,
-        statusCode : httpStatus.OK,
-        message: "User logged in successfully",
-        data: loginResult
-    })
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "none",
+      maxAge: 1000 * 60 * 60 * 24,
+    });
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "none",
+      maxAge: 1000 * 60 * 60 * 24 * 7, //milliseconds
+    });
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "User logged in successfully",
+      data: { accessToken, refreshToken },
+    });
   },
 );
 
