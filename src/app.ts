@@ -10,6 +10,7 @@ import { authRoutes } from "./module/auth/auth.route";
 import { postRoutes } from "./module/posts/post.route";
 import { commentRoutes } from "./module/comments/comment.route";
 
+
 const app: Application = express();
 
 app.use(
@@ -31,5 +32,12 @@ app.use("/api/users", userRoutes)
 app.use("/api/auth",authRoutes)
 app.use("/api/comments",commentRoutes)
 app.use("/api/posts",postRoutes)
+
+app.use((req: Request,res : Response)=>{
+  res.status(404).json({
+    message : "Route not found",
+    path : req.originalUrl
+  })
+})
 
 export default app;
