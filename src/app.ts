@@ -1,15 +1,13 @@
-import express, { Application, Request, Response } from "express";
+import express, { Application, NextFunction, Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import config from "./config";
-import httpStatus from "http-status";
-import { prisma } from "./lib/prisma";
-import bcrypt from "bcryptjs";
 import { userRoutes } from "./module/user/user.route";
 import { authRoutes } from "./module/auth/auth.route";
 import { postRoutes } from "./module/posts/post.route";
 import { commentRoutes } from "./module/comments/comment.route";
-
+import { notFound } from "./middlewares/notFound";
+import { globalErrorHandler } from "./middlewares/globalErrorHandler";
 
 const app: Application = express();
 
@@ -28,16 +26,19 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Hello World");
 });
 
-app.use("/api/users", userRoutes)
-app.use("/api/auth",authRoutes)
-app.use("/api/comments",commentRoutes)
-app.use("/api/posts",postRoutes)
+app.use("/api/users", userRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/comments", commentRoutes);
+app.use("/api/posts", postRoutes);
 
-app.use((req: Request,res : Response)=>{
-  res.status(404).json({
-    message : "Route not found",
-    path : req.originalUrl
-  })
-})
+// app.use((req: Request,res : Response)=>{
+//   res.status(404).json({
+//     message : "Route not found",
+//     path : req.originalUrl
+//   })
+// })
+
+app.use(notFound);
+app.use(globalErrorHandler);
 
 export default app;
