@@ -4,6 +4,19 @@ import { prisma } from "../../lib/prisma";
 import { IcreatePostPayload, IPostQuery, IUpdatePostPayload } from "./post.interface";
 
 const createPost = async (payload: IcreatePostPayload, userId: string) => {
+  const user = await prisma.user.findFirstOrThrow({
+    where: {
+      id : userId
+    },
+    include : {
+      subscription : true
+    }
+  })
+
+  if (payload.isPremium && user.subscription?.status !== "ACTIVE") {
+    throw new Error("you are not premium user, so you can not create premium content")
+  }
+
   const result = await prisma.post.create({
     data: {
       ...payload,
@@ -88,9 +101,9 @@ const getAllPosts = async (query : IPostQuery) => {
         })
     }
 
-    // andConditions.push({
-    //     isPremium : false
-    // })
+    andConditions.push({
+        isPremium : false
+    })
 
     const posts = await prisma.post.findMany(
         {
@@ -445,6 +458,7 @@ const getPostById = async (postId: string) => {
     const post = await tx.post.findUniqueOrThrow({
       where: {
         id: postId,
+        isPremium : false
       },
       include: {
         author: {
