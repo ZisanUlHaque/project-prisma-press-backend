@@ -126,7 +126,7 @@ STRIPE_WEBHOOK_SECRET=whsec_...
 STRIPE_PRODUCT_PRICE_ID=price_...
 📡 API Endpoints
 Base URL: http://localhost:5000
-
+```
 
 ```bash
 Auth
@@ -178,12 +178,8 @@ JSON
   "meta": { "page": 1, "limit": 10, "total": 42 },
   "data": {}
 }
-Auth Header:
-
-text
-
-Authorization: <access-token>
-👥 Roles & Permissions
+```
+## 👥 Roles & Permissions
 Action	USER	Subscribed	ADMIN
 View Public Posts	✅	✅	✅
 View Premium Posts	❌	✅	✅
@@ -206,19 +202,8 @@ Role                → USER | ADMIN | AUTHOR
 PostStatus          → PUBLISHED | DRAFT | ARCHIVED
 CommentStatus       → APPROVED | REJECT
 SubscriptionStatus  → ACTIVE | CANCELED | EXPIRED
-💳 Stripe Flow
-text
 
-User → Checkout → Stripe Page → Payment
-                                    ↓
-                            Webhook Fires
-                                    ↓
-        ┌───────────────┬───────────────┬───────────────┐
-   session.completed  subscription.updated  subscription.deleted
-        ↓                    ↓                    ↓
-     ACTIVE            Sync Period          CANCELED
-Test Card: 4242 4242 4242 4242 | 12/29 | 123
-```
+``
 ### 📁 Project Structure
 ```bash
 
