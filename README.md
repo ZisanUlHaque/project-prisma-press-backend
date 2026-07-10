@@ -124,21 +124,23 @@ JWT_REFRESH_EXPIRES_IN=7d
 STRIPE_SECRET_KEY=sk_test_...
 STRIPE_WEBHOOK_SECRET=whsec_...
 STRIPE_PRODUCT_PRICE_ID=price_...
-📡 API Endpoints
-Base URL: http://localhost:5000
+
 ```
 
+
+### 📡 API Endpoints
 ```bash
-Auth
+Base URL: http://localhost:5000
+## Auth
 Method	Endpoint	Access
 POST	/api/auth/login	Public
 POST	/api/auth/refresh-token	Public
-Users
+## Users
 Method	Endpoint	Access
 POST	/api/users/register	Public
 GET	/api/users/me	USER / ADMIN
 PUT	/api/users/my-profile	USER / ADMIN
-Posts
+## Posts
 Method	Endpoint	Access
 GET	/api/posts	Public
 GET	/api/posts/stats	ADMIN
@@ -147,11 +149,11 @@ GET	/api/posts/:postId	Public
 POST	/api/posts	USER / ADMIN
 PATCH	/api/posts/:postId	USER / ADMIN
 DELETE	/api/posts/:postId	USER / ADMIN
-Premium
+## Premium
 Method	Endpoint	Access
 GET	/api/premium	Subscribed / ADMIN
 GET	/api/premium/:postId	Subscribed / ADMIN
-Comments
+## Comments
 Method	Endpoint	Access
 GET	/api/comments/author/:authorId	Public
 GET	/api/comments/:commentId	Public
@@ -159,7 +161,7 @@ POST	/api/comments	USER / ADMIN
 PATCH	/api/comments/:commentId	USER / ADMIN
 DELETE	/api/comments/:commentId	USER / ADMIN
 PATCH	/api/comments/:commentId/moderate	ADMIN
-Subscription
+##Subscription
 Method	Endpoint	Access
 POST	/api/subscription/checkout	USER / ADMIN
 POST	/api/subscription/webhook	Stripe
@@ -180,6 +182,7 @@ JSON
 }
 ```
 ## 👥 Roles & Permissions
+```bash
 Action	USER	Subscribed	ADMIN
 View Public Posts	✅	✅	✅
 View Premium Posts	❌	✅	✅
@@ -203,7 +206,7 @@ PostStatus          → PUBLISHED | DRAFT | ARCHIVED
 CommentStatus       → APPROVED | REJECT
 SubscriptionStatus  → ACTIVE | CANCELED | EXPIRED
 
-``
+```
 ### 📁 Project Structure
 ```bash
 
